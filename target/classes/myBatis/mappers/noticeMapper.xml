@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="noticeMapper">
+		<select id="selectOne" resultType="NoticeDTO" parameterType="java.lang.Integer">
+			select * from notice where num=#{num}
+		</select>
+		
+		<delete id="del" parameterType="java.lang.Integer">
+			delete notice where num=#{num}
+		</delete>	
+		
+		<insert id="ins" parameterType="com.se.notice.NoticeDTO">	<!-- noticeDTO안에 오는 변수명을 쓰면된다." -->
+		insert into notice values (notice_seq.nextval, #{title},#{writer},#{contents},sysdate,0)
+		</insert>
+		
+		<select id="selectList" parameterType="java.util.Map" resultType="com.se.notice.NoticeDTO">
+			select * from
+			(select rownum R, N.* from
+			(select * from notice where
+			<choose>
+				<when test="kind== 'contents'">
+					 contents
+				</when>
+				<when test="kind == 'writer'">
+					writer
+				</when>
+				<otherwise>
+					title
+				</otherwise>
+			 </choose>
+			 like '%'||#{search}||'%' order by num desc) N)
+			where R between #{startRow} and ${lastRow}
+		</select>
+	</mapper>

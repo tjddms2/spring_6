@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper>
+  <sql id="kind">
+  		and kind=#{kind}
+  	</sql>
+  
+  	<!-- insert -->
+  	<insert id="insert" parameterType="FileDTO">
+  		insert into files values(files_seq.nextval,#{num},#{fname}, #{oname}, #{kind})
+  	</insert>
+  	
+  	<!-- deleteAll -->
+  	<delete id="deleteAll" parameterType="FileDTO">
+  		delete files where num=#{num} <include refid="kind"></include>
+  	</delete>
+  	
+  	<!-- delete  -->
+  	<delete id="delete" parameterType="java.lang.Integer">
+  		delete files where fnum=#{fnum} 
+  	</delete>
+  	
+  	<!-- select -->
+  	<select id="select" parameterType="java.lang.Integer" resultType="FileDTO">
+  		select * from files where fnum=#{fnum}
+  	</select>
+  	
+  	<!-- list -->
+  	<select id="list" parameterType="FileDTO" resultType="FileDTO">
+  		select * from files where num=#{num} <include refid="kind"></include>
+  	</select>
+
+  </mapper>
