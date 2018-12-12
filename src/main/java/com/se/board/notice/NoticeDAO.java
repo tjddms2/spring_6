@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,51 +14,54 @@ import org.springframework.stereotype.Repository;
 
 import com.se.board.BoardDAO;
 import com.se.board.BoardDTO;
-import com.se.util.DBConnector;
+
 import com.se.util.Paper;
 
 @Repository
 public abstract class NoticeDAO implements BoardDAO {
 	
 	@Inject
-	private SqlSession session;
-	private String namespace="noticeMapper.";
+	private SqlSession Sqlsession;
+	private String NAMESPACE="noticeMapper.";
+	
+	public int getNum() throws Exception{
+		return Sqlsession.selectOne(NAMESPACE="getNum");
+	}
 	
 	//@Override
-	public List<BoardDTO> list(Paper pager, int startRow, int lastRow, String search , String kind) throws Exception {
-		Map<String, Object> map =new HashMap<String, Object>();
+	public List<BoardDTO> list(Paper pager/*, int startRow, int lastRow, String search , String kind*/) throws Exception {
+		/*Map<String, Object> map =new HashMap<String, Object>();
 		map.put("pager", pager);
 		map.put("startRow", startRow);
 		map.put("lastRow", lastRow);
 		map.put("search", search);
-		map.put("kind", kind);
+		map.put("kind", kind);*/
 				
-		return  session.selectList(namespace+"selectList", map);
+		return  Sqlsession.selectList(NAMESPACE+"selectList", pager);
 	}
 	
 	@Override
 	public BoardDTO select(int num) throws Exception {
 		//글 하나를 조회 : SqlSession을 가지고 와야됨.
-		return session.selectOne(namespace+"selectOne", num);
+		return Sqlsession.selectOne(NAMESPACE+"select", num);
 	}
 	
 	@Override
 	public int insert(BoardDTO boardDTO) throws Exception {
-		return session.insert(namespace+"ins", boardDTO);
+		return Sqlsession.insert(NAMESPACE+"ins", boardDTO);
 	}
 	@Override
 	public int update(BoardDTO boardDTO) throws Exception {
-		return session.update(namespace+"udt", boardDTO);
+		return Sqlsession.update(NAMESPACE+"udt", boardDTO);
 	}
 	
 	@Override
 	public int delete(int num) throws Exception {
-		return session.delete(namespace+"del", num);
+		return Sqlsession.delete(NAMESPACE+"del", num);
 	}
 	@Override
 	public int totalCount(Paper pager) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return Sqlsession.selectOne(NAMESPACE+"totalCount", pager);
 	}
 	
 	

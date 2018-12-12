@@ -25,6 +25,13 @@ $(function(){
 	<h3>title : ${dto.title}</h3>
 	<h3>writer : ${dto.writer}</h3>
 	<h3>contents : ${dto.contents}</h3>
+	<div>
+		<c:forEach items="${files}" var="file" varStatus="i">
+			<div id="f${i.index}">
+				<a href="../reresources/${board}/${file.fname}">${file.oname}</a>
+			</div>
+		</c:forEach>
+	</div>
 	
 	<!-- qna랑  notice로 가고싶을때, ${board}로 쓰면 둘중 하나만 가게 한다. -->
 	<a href="./${board}List">List</a> 
