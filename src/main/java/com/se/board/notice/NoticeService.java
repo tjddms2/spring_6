@@ -120,10 +120,27 @@ public class NoticeService{
 	public ModelAndView update(BoardDTO boardDTO,List<MultipartFile> f1, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		int result = noticeDAO.update(boardDTO);
-		String msg="update Fail";
-		if(result>0) {
-			msg="update Success";
+		
+		
+		if(result<1) {
+			throw new Exception();
 		}
+		//HDD save
+		FileSaver fs= new FileSaver();
+		String realPath =session.getServletContext().getRealPath("resources/notice");
+		for(MultipartFile multipartFile:f1) {
+			String fname=fs.savefile(realPath, multipartFile);
+			FileDTO fileDTO = new FileDTO();
+			fileDTO.setNum(boardDTO.getNum());
+			fileDTO.setOname(multipartFile.getOriginalFilename());
+			fileDTO.setFname(fname);
+			fileDTO.setKind("n");
+			result = fileDAO.insert(fileDTO);
+			if(result<1) {
+				throw new Exception();
+			}
+		}
+		String msg="UPdate Success";
 		mv.setViewName("redirect :./noticeSelect?num="+boardDTO.getNum());
 		mv.addObject("msg", msg);
 		return mv;

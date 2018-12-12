@@ -1,6 +1,9 @@
 package com.se.board;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.se.file.FileDTO;
 
 public class BoardDTO {
 
@@ -11,6 +14,15 @@ public class BoardDTO {
 	private Date reg_date; 
 	private int hit;
 	
+	private List<FileDTO> files;
+	
+	
+	public List<FileDTO> getFiles() {
+		return files;
+	}
+	public void setFiles(List<FileDTO> files) {
+		this.files = files;
+	}
 	public int getNum() {
 		return num;
 	}
