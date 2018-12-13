@@ -42,8 +42,22 @@
   		where R between #{startRow} and #{lastRow}
   	</select>
   	
-  	<select id="select" resultType="NoticeDTO" parameterType="java.lang.Integer">
-  		select * from notice where num=#{num}
+  	<resultMap type="NoticeDTO" id="noticeResult">
+  		<id property="num" column="num"/>
+  		<result property="title" column="title"/>
+  		<collection property="files" resultMap="fileResult" javaType="java.util.Arraylist" ofType="FileDTO"></collection>
+  
+  	</resultMap>
+  	<resultMap type="FileDTO" id="fileResult">
+  		<id property="fnum" column="fnum"/>
+  			<result property="num" column="num"/>
+  			<result property="fname" column="fname"/>
+  			
+  	</resultMap>
+  	<select id="select" resultMap="noticeResult" parameterType="java.lang.Integer">
+  		select n.*, f.fnum, f.fname, f.oname
+		from notice n inner join files f
+ 		on n.num=f.num and f.kind='n' and n.num=#{num}
   	</select>
   	
   	<delete id="delete" parameterType="java.lang.Integer" >

@@ -49,8 +49,17 @@ $(function(){
 		});
 	});
 });
-
 </script>
+<style type="text/css">
+.files,.del{
+	color: red;
+	cursor:pointer;
+}
+#f{
+display:none;
+}
+
+</style>
 </head>
 <body>
 <h1>${board} Update</h1>
