@@ -3,12 +3,13 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 	<mapper namespace="memberMapper">
+	
 	<insert id="join" parameterType="MemberDTO">
 		insert into member values(#{id}, #{pw}, #{name}, #{email}, #{phone}, #{address},#{grade})
 	</insert>
 	
 	<select id="idCheck" parameterType="java.lang.String" resultType="MemberDTO">
-	select * from member where id=#{id}
+		select * from member where id=#{id}
 	</select>
 	
 	<select id="login" parameterType="MemberDTO" resultType="MemeberDTO">
@@ -16,11 +17,11 @@
 	</select>
 	
 	<update id="update" parameterType="MemberDTO">
-	update member set pw=#{pw}, name=#{name}, email=#{email}, phone=#{phone}, address=#{address} where id=#{id}
+		update member set pw=#{pw}, name=#{name}, email=#{email}, phone=#{phone}, address=#{address} where id=#{id}
 	</update>
 	
 	<delete id="delete" parameterType="java.lang.String">
-	delete member where id=#{id}
+		delete member where id=#{id}
 	</delete>
 	
 	</mapper>

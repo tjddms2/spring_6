@@ -24,7 +24,10 @@ public class QnaDAO implements BoardDAO {
 	private final String NAMESPACE="qnaMapper.";
 	//바뀌지 않는 
 	
-
+	public int getNum()throws Exception{
+	return sqlsession.selectOne(NAMESPACE+"getNum");
+	}
+	
 	@Override
 	public int totalCount(Paper pager) throws Exception {
 		return sqlsession.selectOne(NAMESPACE+"totalCount", pager);

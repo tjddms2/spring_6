@@ -19,7 +19,7 @@ import com.se.file.FileDTO;
 import com.se.util.FileSaver;
 import com.se.util.Paper;
 @Service
-public class NoticeService{
+public class NoticeService implements BoardService{
 	
 
 	@Inject
@@ -60,13 +60,12 @@ public class NoticeService{
 		BoardDTO boardDTO =noticeDAO.select(num);
 		//2.Files table
 		if(boardDTO != null) {
-		FileDTO fileDTO = new FileDTO();
-		fileDTO.setNum(num);
-		fileDTO.setKind("n");
-		List<FileDTO> ar=fileDAO.list(fileDTO);
+														/*	fileDTO.setNum(num);
+															fileDTO.setKind("n");
+															List<FileDTO> ar=fileDAO.list(fileDTO);*/	
 		mv.setViewName("board/boardSelect");
 		mv.addObject("dto",	boardDTO);
-		mv.addObject("files", ar);
+														/*mv.addObject("files", ar);*/
 		}else {
 			mv.setViewName("redirect:./noticeList");
 			mv.addObject("msg", "글이없습니다.");
@@ -120,11 +119,10 @@ public class NoticeService{
 	public ModelAndView update(BoardDTO boardDTO,List<MultipartFile> f1, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		int result = noticeDAO.update(boardDTO);
-		
-		
 		if(result<1) {
 			throw new Exception();
 		}
+		
 		//HDD save
 		FileSaver fs= new FileSaver();
 		String realPath =session.getServletContext().getRealPath("resources/notice");
@@ -141,6 +139,7 @@ public class NoticeService{
 			}
 		}
 		String msg="UPdate Success";
+		
 		mv.setViewName("redirect :./noticeSelect?num="+boardDTO.getNum());
 		mv.addObject("msg", msg);
 		return mv;
@@ -159,7 +158,7 @@ public class NoticeService{
 	      fileDTO.setKind("n");
 	      List<FileDTO> ar = fileDAO.list(fileDTO);
 	      
-	      //3. Files table Delete
+	    //3. Files Delete 준비
 	      result = fileDAO.deleteAll(fileDTO);
 	      if(result<1) {
 	         throw new Exception();

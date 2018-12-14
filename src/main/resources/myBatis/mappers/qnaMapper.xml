@@ -4,13 +4,17 @@
    
    <mapper namespace="qnaMapper">
    
+   <select id="getNum"	resultType="java.lang.Integer">
+   		select qna_seq.nextval from dual
+   </select>
+   
    <update id="replyUpdate" parameterType="QnaDTO">
-  	 update qna step=step+1 where ref=#{ref} and step>#{step}
+  	 	update qna set step=step+1 where ref=#{ref} and step>#{step}
    </update>
    
    <insert id="reply" parameterType="QnaDTO">
-   insert into qna values
-  (qna_seq.nextval #{title}, #{writer} #{contents}, sysdate,0, #{ref}, #{step}, #{depth})
+   		insert into qna values
+  		(qna_seq.nextval #{title}, #{writer}, #{contents}, sysdate,0, #{ref}, #{step}, #{depth})
    </insert>
    
    
@@ -18,52 +22,52 @@
    	select count(num) from qna where
    	<choose>
 	   <when test="kind == 'writer'">
-	   	writer
+	   					writer
 	   </when>
 	   <when test="king == 'contents'">
-	   	contents
+	   				contents
 	   </when>
-	   <otherwise>
-	   title
-	   </otherwise>
+	   		<otherwise>
+	   			title
+	   		</otherwise>
    </choose>
- 	  like '%'||#{search}||'%'
+ 	  		like '%'||#{search}||'%'
    </select>
    
    <select id="List" parameterType="Pager" resultType="QnaDTO">
-   select * from
-   (select rownum R, Q.* from 
-   (select * from qna where 
+   		select * from
+   		(select rownum R, Q.* from 
+   		(select * from qna where 
    <choose>
-	   <when test="kind == 'writer'">
-	   	writer
-	   </when>
+	   	<when test="kind == 'writer'">
+	   			writer
+	   	</when>
 	   <when test="king == 'contents'">
-	   	contents
+	   			contents
 	   </when>
-	   <otherwise>
-	   title
-	   </otherwise>
+	   		<otherwise>
+	   			title
+	   		</otherwise>
    </choose>
 	   like '%'||#{search}||'%' order by ref desc, step asc) Q)
 	   where R between #{startRow} and #{lastRow}
    </select>
   
     <select id="select"  parameterType="java.lang.Integer" resultType="QnaDTO">
-   	select * from qna where num=#{num}
+   		select * from qna where num=#{num}
    </select> 
    
    <insert id="insert" parameterType="BoardDTO">
-   insert into qna values
-   (qna_seq.nextval,#{title},#{contents},#{writer},sysdate,0,qna_seq.currval,0,0)
+   		insert into qna values
+   		(qna_seq.nextval,#{title},#{contents},#{writer},sysdate,0,qna_seq.currval,0,0)
    </insert>
    
    <update id="update" parameterType="BoardDTO">
-   update qna set title=#{title}, contents=#{contents}, where num=#{num}
+   		update qna set title=#{title}, contents=#{contents}, where num=#{num}
    </update>
    
    <delete id="delete" parameterType="java.lang.Integer">
-   delete qna where num=#{num}
+   		delete qna where num=#{num}
    </delete>
    
    </mapper>

@@ -6,10 +6,14 @@ import com.se.util.Paper;
 
 public interface BoardDAO {
 	//팀장님~
+	
+	//getNum
+	public int getNum()throws Exception;
+	
 	//List
 	public List<BoardDTO> list(Paper pager) throws Exception;
 	
-	//select				매개변수 int num
+	//select : 매개변수 int num				
 	public BoardDTO select(int num) throws Exception;
 	
 	//insert=write

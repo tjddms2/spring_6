@@ -20,6 +20,20 @@ public class MemberController {
 	@Inject
 	private MemeberService memeberService;
 	
+	//중복확인
+		@RequestMapping(value="idCheck")
+		public String idcheck(String id,Model model)throws Exception{
+			MemberDTO memberDTO = memeberService.idCheck(id);
+			//int result=0  //사용 불가능
+			//result =1		//사용 가능
+			int result=0;
+			if(memberDTO == null) {
+				result=1;
+			}
+			model.addAttribute("result", result);
+			return "common/result";
+		}
+	
 	//가입
 	@RequestMapping(value="join",method=RequestMethod.GET)
 	public void join()throws Exception{	}
@@ -34,29 +48,17 @@ public class MemberController {
 		}
 		return path;
 	}
-	//중복확인
-	@RequestMapping(value="idCheck")
-	public String idcheck(String id,Model model)throws Exception{
-		MemberDTO memberDTO = memeberService.idCheck(id);
-		//int result=0  //사용 불가능
-		//result =1		//사용 가능
-		int result=0;
-		if(memberDTO == null) {
-			result=1;
-		}
-		model.addAttribute("result", result);
-		return "common/result";
-	}
+	
 	//로그인폼
 	@RequestMapping(value="login",method=RequestMethod.GET)
 	public void login()throws Exception{}
+	
 	//로그인 처리
 	@RequestMapping(value="login",method=RequestMethod.POST)
-	public String login(MemberDTO memberDTO,HttpSession session/*HttpServletRequest request*/,RedirectAttributes rd)throws Exception{
+	public String login(MemberDTO memberDTO,HttpSession session,RedirectAttributes rd)throws Exception{
 		memberDTO=memeberService.login(memberDTO);
 		String path="";
 		if(memberDTO !=null) {
-			/*HttpSession session = request.getSession();*/
 			session.setAttribute("member", memberDTO);
 			path="redirect:../";
 		}else {
@@ -96,5 +98,14 @@ public class MemberController {
 		}
 		rd.addFlashAttribute("msg", message);
 		return "redirect:./";
+	}
+	//myPage
+	@RequestMapping(value="myPage")
+	public void myPage()throws Exception{}
+	
+	//logOut
+	public String logOut(HttpSession session)throws Exception{
+		session.invalidate();
+		return "redirect:../";
 	}
 }

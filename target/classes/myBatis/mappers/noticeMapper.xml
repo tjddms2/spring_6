@@ -11,14 +11,14 @@
   		select count(num) from notice where 
   		<choose>
   			<when test="kind == 'writer'">
-  				writer
+  					writer
   			</when>
   			<when test="kind == 'contents'">
-  				contents
+  					contents
   			</when>
-  			<otherwise>
-  				title
-  			</otherwise>
+  				<otherwise>
+  						title
+  				</otherwise>
   		</choose>
   			like '%'||#{search}||'%'
   	</select>
@@ -45,19 +45,25 @@
   	<resultMap type="NoticeDTO" id="noticeResult">
   		<id property="num" column="num"/>
   		<result property="title" column="title"/>
-  		<collection property="files" resultMap="fileResult" javaType="java.util.Arraylist" ofType="FileDTO"></collection>
-  
+  		<result property="writer" column="writer"/>
+  		<result property="contents" column="contents"/>
+  		<result property="reg_date" column="reg_date"/>
+  		<result property="hit" column="hit"/>
+  		<collection resultMap="fileResult" property="files" javaType="java.util.Arraylist" ofType="FileDTO"></collection>
   	</resultMap>
+  	
   	<resultMap type="FileDTO" id="fileResult">
   		<id property="fnum" column="fnum"/>
   			<result property="num" column="num"/>
   			<result property="fname" column="fname"/>
-  			
+  			<result property="oname" column="oname"/>
+  			<result property="kind" column="kind"/>
   	</resultMap>
+  	
   	<select id="select" resultMap="noticeResult" parameterType="java.lang.Integer">
-  		select n.*, f.fnum, f.fname, f.oname
-		from notice n inner join files f
- 		on n.num=f.num and f.kind='n' and n.num=#{num}
+  		select n.*, f.fnum, f.fname, f.oname, f.kind
+		from notice n left join files f				<!-- BoardDTO에 list<FileDTO> files를 인력함 -->
+ 		on n.num=f.num and f.kind='n' where n.num=#{num}
   	</select>
   	
   	<delete id="delete" parameterType="java.lang.Integer" >
