@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 	 Advice 
+		<bean class="com.se.trans.CardCheck" id="cardCheck"></bean>
+		<bean class="com.se.trans.Transport" id="transport"></bean>
+		<bean class="com.se.trans.Trip" id="t"></bean>
+		<aop:config>
+			<aop:aspect id="cardAspect" ref="cardCheck">
+				target
+				<aop:pointcut expression="execution(* com.se.trans..Transport.*(..))" id="trans"/>
+				<aop:around method="check" pointcut-ref="trans"/>
+			</aop:aspect
+			<aop:aspect id="trip" ref="cardCheck">
+				<aop:before method="packing" pointcut-ref="p"/>
+				<aop:pointcut expression="execution(* com.se.trans.Trip.*(..))" id="p"/>		
+			</aop:aspect>
+
+		</aop:config>
+		-->
 		
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="propertyPlaceholderConfigurer">
 	 <property name="locations" value="classpath:myBatis/properties/myBatis.properties"></property>
@@ -30,5 +53,17 @@
 		<property name="maxUploadSize" value="104857600"></property>
 		<property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
+	
+	<aop:aspectj-autoproxy />
+		<context:component-scan base-package="com.se.board.notice"/>
+		<context:component-scan base-package="com.se.board.qna"/>
+		<context:component-scan base-package="com.se.member" />
+		<context:component-scan base-package="com.se.file" />
+		<context:component-scan base-package="com.se.trans" />
+		
+		<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+			<property name="dataSource" ref="dataSource" />
+		</bean>
+		<tx:annotation-driven/>
 	
 </beans>
