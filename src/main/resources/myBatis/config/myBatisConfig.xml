@@ -11,5 +11,6 @@
 		<typeAlias type="com.se.util.Pager" alias="Pager"/>
 		<typeAlias type="com.se.member.MemberDTO" alias="MemberDTO"/>
 		<typeAlias type="com.se.file.FileDTO" alias="FileDTO"/>
+		<typeAlias type="com.se.board.memo.MemoDTO" alias="MemoDTO"/>
 	</typeAliases>
    </configuration>

@@ -1,5 +1,6 @@
 package com.se.s6;
 
+import java.io.File;
 import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -14,15 +15,27 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.se.file.FileDTO;
 import com.se.file.FileService;
 import com.se.file.PhotoDTO;
 import com.se.util.FileSaver;
 
-@Controller(value="/file/**")
+@Controller
+@RequestMapping(value="/file/**")
 public class FileController {
 
 	@Inject
 	private FileService fileService;
+	
+	@RequestMapping("fileDown")
+	public ModelAndView fileDown(FileDTO fileDTO)throws Exception{				//파일의 저장된 이름을 꺼내오기
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("file", fileDTO);
+		mv.setViewName("fileDown");												//fileDown과 fileViewName이 맞아야 됨
+		return mv;
+		
+		
+	}
 	
 	@RequestMapping(value="delete")
 	public ModelAndView delete(int fnum)throws Exception{

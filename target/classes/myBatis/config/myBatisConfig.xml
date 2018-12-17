@@ -8,8 +8,9 @@
   		<typeAlias type="com.se.board.notice.NoticeDTO" alias="NoticeDTO"/>
 		<typeAlias type="com.se.board.qna.QnaDTO" alias="QnaDTO"/>
 		<typeAlias type="com.se.board.BoardDTO" alias="BoardDTO"/>
-		<typeAlias type="com.se.util.Pager" alias="Pager"/>
+		<!-- <typeAlias type="com.se.util.Pager" alias="Pager"/> -->
 		<typeAlias type="com.se.member.MemberDTO" alias="MemberDTO"/>
 		<typeAlias type="com.se.file.FileDTO" alias="FileDTO"/>
+		<typeAlias type="com.se.board.MemoDTO" alias="MemoDTO"/>
 	</typeAliases>
    </configuration>

@@ -55,15 +55,33 @@
 	</bean>
 	
 	<aop:aspectj-autoproxy />
-		<context:component-scan base-package="com.se.board.notice"/>
+		<context:component-scan base-package="com.se.board.notice"> 
+			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		</context:component-scan>
 		<context:component-scan base-package="com.se.board.qna"/>
 		<context:component-scan base-package="com.se.member" />
-		<context:component-scan base-package="com.se.file" />
 		<context:component-scan base-package="com.se.trans" />
+		<context:component-scan base-package="com.se.util" />
+		<context:component-scan base-package="com.se.file" />
+		<context:component-scan base-package="com.se.board.memo" />
 		
 		<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
 			<property name="dataSource" ref="dataSource" />
 		</bean>
-		<tx:annotation-driven/>
+		
+	<!-- 외부에서 작용하는 애들 -->
+	<!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" rollback-for="Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.se..*Service.*(..))" id="roll"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="roll"/>
+	</aop:config> -->
+	<tx:annotation-driven/>
+	
+	
 	
 </beans>

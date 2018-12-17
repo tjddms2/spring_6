@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="memoMapper">
+<select id="list" parameterType="Pager" resultType="MemoDTO">
+	select * from
+	select rownum R, M.* from
+	(select * from memo order by num desc) M)
+	where R between #{startRow} and #{lastRow}
+</select>
+
+<select id="select" parameterType="java.lang.Integer" resultType="MemoDTO">
+	select * from memo 
+</select>
+
+
+
+
+
+
+</mapper>

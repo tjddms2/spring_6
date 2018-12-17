@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+		<h1>MyPAgE</h1>
+		<button id="btn">Board</button>
+		<div id="result">
+		
+		</div>
 </body>
 </html>
