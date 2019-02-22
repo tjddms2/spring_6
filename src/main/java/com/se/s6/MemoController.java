@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,10 +26,10 @@ public class MemoController {
 	@RequestMapping("memoList")
 	public void memoList()throws Exception{}
 		
-	@RequestMapping("jtest2")
+	@RequestMapping(value="jtest2", produces="application/json;charset=UTF-8")
 	@ResponseBody														//모든 메서드가 ResponseBody를 쓸경우 @RestController로 class위에 써놓기..
 	public String jtest2()throws Exception{
-		return "json";
+		return "테스트2";
 	}
 	
 	@RequestMapping("jtest1")
@@ -45,12 +46,28 @@ public class MemoController {
 	
 	}
 	
-	@RequestMapping("list")
-	public void list(Paper pager)throws Exception{
-		
+	/*@RequestMapping("list/{curPage}")
+	@ResponseBody				//@path변수 자체가 경로입니다.
+	public List<MemoDTO> list(@PathVariable int curPage)throws Exception{
+		System.out.println("curPage:"+curPage);
+		Paper pager = new Paper();
+		return memoservice.list(pager);
 		List<MemoDTO> ar=memoservice.list(pager);
 		System.out.println(ar.get(0).getContents());
+	}↓*/
+
+	@RequestMapping("list/{board}")	//.do는 확장자 인식을 못한다.
+	@ResponseBody				
+	public List<MemoDTO> list(@PathVariable String board)throws Exception{
+		System.out.println("board:"+board);
+		
+		Paper pager = new Paper();
+		return memoservice.list(pager);
+		/*List<MemoDTO> ar=memoservice.list(pager);
+		System.out.println(ar.get(0).getContents());*/
 	}
+	
+	
 	@RequestMapping("select")
 	@ResponseBody
 	public MemoDTO select(int num)throws Exception{

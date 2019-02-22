@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +27,7 @@ public class NoticeController {
 	//list	//파라미터가 안넘와서 세트로 안하는거고 null이 된 상태도
 	@RequestMapping(value="noticeList")
 	public ModelAndView list(Paper pager) throws Exception {
+
 		ModelAndView mv = noticeService.list(pager);
 		mv.addObject("board", "notice");
 		return mv;
